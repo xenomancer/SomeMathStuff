@@ -12,7 +12,13 @@ namespace sms {
 
 		template <typename T> T sum(T, T*, int);
 		template <typename T> T sum(T, T*, int, int);
-		
+
+
+
+
+
+
+		template <typename T> T sumf(T, T*, int);
 
 
 
@@ -103,7 +109,19 @@ namespace sms {
 
 
 
-		
+
+
+
+
+
+
+		template <typename T> T sumf(T x0, T* x, int n) {
+			T res;
+
+			res = fold<T>([=](T aa, T* xx, T cc, int ii, int nn) { return (aa + xx[ii]); }, x0 - x0, x0, x, n);
+
+			return res;
+		}
 
 
 
