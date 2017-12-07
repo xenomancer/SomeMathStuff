@@ -11,7 +11,6 @@ namespace sms {
 
 
 		template <typename T> T prod(T, T*, int);
-		template <typename T> T prodf(T, T*, int);
 
 
 
@@ -30,13 +29,7 @@ namespace sms {
 			return res;
 		}
 
-		template <typename T> T prodf(T x0, T* x, int n) {
-			T res;
-
-			res = fold<T>([=](T a, T b) {return (a * b); }, x0, x, n);
-
-			return res;
-		}
+		
 
 
 
