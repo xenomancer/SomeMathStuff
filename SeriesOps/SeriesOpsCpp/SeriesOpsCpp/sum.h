@@ -14,7 +14,7 @@ namespace sms {
 		template <typename T> T sum(T, T*, int, int);
 
 
-
+		template <typename T> T sumif(T, T*, int, bool(*func)(T, T*, int, int));
 
 
 
@@ -107,7 +107,42 @@ namespace sms {
 			return res;
 		}
 
+		///<summary>Conditional sum over an array of values, corrected for rounding error</summary>
+		///<param name="T">Value type</param>
+		///<param name="x0">Initial value</param>
+		///<param name="x">Summand array</param>
+		///<param name="n">Size of summand array, 1-indexed</param>
+		///<param name="func">Condition function</param>
+		///<remarks>Uses Neumaier's modification of Kahan's method to correct for rounding error</remarks>
+		template <typename T> T sumif(T x0, T* x, int n, bool(*func)(T, T*, int, int)) {
+			T res;
+			T c;
+			T y;
+			T q;
+			bool cd;
 
+			res = x0;
+			c = x0 - x0;
+
+			for (int i = 0; i < n; i++) {
+				cd = func(res, x, i, n);
+				if (cd) {
+
+					// Neumaier...
+					q = res + x[i];
+					if (abs(res) >= abs(x[i])) {
+						c += (res - q) + x[i];
+					}
+					else {
+						c += (x[i] - q) + res;
+					}
+					res = q;
+				};
+			}
+			res += c;
+
+			return res;
+		}
 
 
 
